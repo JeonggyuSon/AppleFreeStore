@@ -46,7 +46,7 @@ class DetailSegmentedTable: UITableViewController, AddScrollContentSize {
                 DispatchQueue.main.async {
                     detail.summary.text = summaryText.first
                     screenshot.first!.enumerated().forEach { index, value in
-                        let screen = Screenshot(index: CGFloat(index))
+                        let screen = Screenshot(index: CGFloat(index), scrollWidth: detail.screenshot.frame.width)
                         screen.screenshotImageUrl = value as? String
                         screen.delegate = self
                         detail.screenshot.addSubview(screen)
@@ -69,8 +69,8 @@ class DetailSegmentedTable: UITableViewController, AddScrollContentSize {
         }
     }
     
-    internal func addContent(size: CGSize) {
-        let width = size.width + screenshot.contentSize.width + 10
+    internal func addContent(direction: Bool, size: CGSize) {
+        let width = size.width + screenshot.contentSize.width + (direction ? 10 : 0)
         screenshot.contentSize = CGSize(width: width, height: size.height)
         screenshot.frame.size = CGSize(width: screenshot.frame.size.width, height: size.height)
         screenshot.layoutIfNeeded()
