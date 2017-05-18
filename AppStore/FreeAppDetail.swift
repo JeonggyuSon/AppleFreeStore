@@ -8,7 +8,11 @@
 
 import UIKit
 
-class FreeAppDetail: UIViewController {
+protocol AverageUserRatingDelegate: class {
+    func setAverageRating(rating: CGFloat?)
+}
+
+class FreeAppDetail: UIViewController, AverageUserRatingDelegate {
     
     @IBOutlet weak var reviewSegmented: UIView!
     @IBOutlet weak var detailSegmented: UIView!
@@ -20,8 +24,8 @@ class FreeAppDetail: UIViewController {
             iconImg.layer.cornerRadius = 15
         }
     }
-    @IBOutlet weak var averageUserRating: UILabel!
     
+    @IBOutlet weak var userRating: UserRating!
     var appID: String?
     var appTitleText: String?
     var iconAddr: String? {
@@ -54,6 +58,13 @@ class FreeAppDetail: UIViewController {
         }
     }
     
+    func setAverageRating(rating: CGFloat?) {
+        DispatchQueue.main.async {
+            self.userRating.rating = rating!
+            self.userRating.setNeedsDisplay()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         appTitle.text = appTitleText ?? ""
@@ -62,9 +73,11 @@ class FreeAppDetail: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detail" {
             let detail = segue.destination as! DetailSegmentedTable
+            detail.delegate = self
             detail.appID = appID
         } else if segue.identifier == "review" {
-            
+            let review = segue.destination as! ReviewSegmented
+            review.appID = appID
         }
     }
 

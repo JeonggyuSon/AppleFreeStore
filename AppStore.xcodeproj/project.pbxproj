@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56181CC01ECD7B0A003F2438 /* UserRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56181CBF1ECD7B0A003F2438 /* UserRating.swift */; };
 		563224611ECAEA6100F9E2B2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563224601ECAEA6100F9E2B2 /* AppDelegate.swift */; };
 		563224631ECAEA6100F9E2B2 /* FreeAppList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563224621ECAEA6100F9E2B2 /* FreeAppList.swift */; };
 		563224661ECAEA6100F9E2B2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 563224641ECAEA6100F9E2B2 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		56181CBF1ECD7B0A003F2438 /* UserRating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserRating.swift; sourceTree = "<group>"; };
 		5632245D1ECAEA6100F9E2B2 /* AppStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		563224601ECAEA6100F9E2B2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		563224621ECAEA6100F9E2B2 /* FreeAppList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeAppList.swift; sourceTree = "<group>"; };
@@ -47,6 +49,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		56181CC11ECD9B5C003F2438 /* Custom View */ = {
+			isa = PBXGroup;
+			children = (
+				56181CC21ECD9B67003F2438 /* Cell */,
+				569623881ECC26D3007601AC /* Screenshot.swift */,
+				56181CBF1ECD7B0A003F2438 /* UserRating.swift */,
+			);
+			name = "Custom View";
+			sourceTree = "<group>";
+		};
+		56181CC21ECD9B67003F2438 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				563224721ECAF01600F9E2B2 /* AppListCell.swift */,
+				5632247C1ECB10A500F9E2B2 /* ReviewCell.swift */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		56181CC31ECD9B76003F2438 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				563224641ECAEA6100F9E2B2 /* Main.storyboard */,
+			);
+			name = Storyboard;
+			sourceTree = "<group>";
+		};
 		563224541ECAEA6000F9E2B2 = {
 			isa = PBXGroup;
 			children = (
@@ -68,10 +97,8 @@
 			children = (
 				563224741ECB008E00F9E2B2 /* Supporting Files */,
 				563224771ECB040B00F9E2B2 /* Controller */,
-				563224641ECAEA6100F9E2B2 /* Main.storyboard */,
-				563224721ECAF01600F9E2B2 /* AppListCell.swift */,
-				5632247C1ECB10A500F9E2B2 /* ReviewCell.swift */,
-				569623881ECC26D3007601AC /* Screenshot.swift */,
+				56181CC31ECD9B76003F2438 /* Storyboard */,
+				56181CC11ECD9B5C003F2438 /* Custom View */,
 			);
 			path = AppStore;
 			sourceTree = "<group>";
@@ -130,6 +157,7 @@
 				TargetAttributes = {
 					5632245C1ECAEA6000F9E2B2 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = WW36JG8F95;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -176,6 +204,7 @@
 				563224631ECAEA6100F9E2B2 /* FreeAppList.swift in Sources */,
 				569623871ECC1E8E007601AC /* DetailSegmentedTable.swift in Sources */,
 				563224731ECAF01600F9E2B2 /* AppListCell.swift in Sources */,
+				56181CC01ECD7B0A003F2438 /* UserRating.swift in Sources */,
 				563224611ECAEA6100F9E2B2 /* AppDelegate.swift in Sources */,
 				5632247D1ECB10A500F9E2B2 /* ReviewCell.swift in Sources */,
 			);
@@ -298,11 +327,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WW36JG8F95;
 				INFOPLIST_FILE = AppStore/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.jgson.AppStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "a6c1f0eb-fccd-477d-9098-c04fe8e7d4b4";
+				PROVISIONING_PROFILE_SPECIFIER = AppleStore_dev;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;

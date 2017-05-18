@@ -11,6 +11,7 @@ import UIKit
 class DetailSegmentedTable: UITableViewController, AddScrollContentSize {
 
     var appID: String?
+    weak var delegate: AverageUserRatingDelegate?
     
     @IBOutlet weak var summaryCell: ReviewCell!
     @IBOutlet weak var screenshotCell: ReviewCell!
@@ -19,7 +20,9 @@ class DetailSegmentedTable: UITableViewController, AddScrollContentSize {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
+        tableView.tableFooterView = UIView()
+        
         let addr = "https://itunes.apple.com/lookup?id=\(appID ?? "")&country=kr"
         let url = URL(string: addr)
         URLSession.shared.dataTask(with: url!, completionHandler: { [weak self] (data, response, error) in
@@ -31,9 +34,11 @@ class DetailSegmentedTable: UITableViewController, AddScrollContentSize {
                 let resultsArray = json["results"] as! NSArray
                 
                 let resultsDic = resultsArray.map { $0 as! [String: Any] }
+                let averageUserRating = resultsDic.filter { $0["averageUserRating"] != nil }.map { $0["averageUserRating"] as! CGFloat }
                 let summaryText = resultsDic.filter { $0["description"] != nil }.map { $0["description"] as! String }
                 let screenshot = resultsDic.filter { $0["screenshotUrls"] != nil }.map { $0["screenshotUrls"] as! NSArray }
                 
+                detail.delegate?.setAverageRating(rating: averageUserRating.first)
                 DispatchQueue.main.async {
                     detail.summary.text = summaryText.first
                     screenshot.first!.enumerated().forEach { index, value in
@@ -64,11 +69,11 @@ class DetailSegmentedTable: UITableViewController, AddScrollContentSize {
         let width = size.width + screenshot.contentSize.width + 10
         screenshot.contentSize = CGSize(width: width, height: size.height)
         screenshot.frame.size = CGSize(width: screenshot.frame.size.width, height: size.height)
-        screenshot.setNeedsLayout()
         screenshot.layoutIfNeeded()
-        tableView.reloadData()
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
-    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

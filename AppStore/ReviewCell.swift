@@ -10,8 +10,7 @@ import UIKit
 
 class ReviewCell: UITableViewCell {
     @IBOutlet weak var title: UILabel!
-    @IBOutlet weak var ranking: UILabel!
     @IBOutlet weak var writer: UILabel!
-    @IBOutlet weak var date: UILabel!
     @IBOutlet weak var content: UILabel!
+    @IBOutlet weak var rating: UserRating!
 }
