@@ -11,7 +11,8 @@ import UIKit
 class DetailSegmentedTable: UITableViewController, AddScrollContentSize {
 
     var appID: String?
-    weak var delegate: AverageUserRatingDelegate?
+    weak var ratingDelegate: AverageUserRatingDelegate?
+    weak var iconDelegate: DetailAppIconDelegate?
     
     @IBOutlet weak var summaryCell: ReviewCell!
     @IBOutlet weak var screenshotCell: ReviewCell!
@@ -24,8 +25,9 @@ class DetailSegmentedTable: UITableViewController, AddScrollContentSize {
         tableView.tableFooterView = UIView()
         
         let addr = "https://itunes.apple.com/lookup?id=\(appID ?? "")&country=kr"
-        let url = URL(string: addr)
-        URLSession.shared.dataTask(with: url!, completionHandler: { [weak self] (data, response, error) in
+        
+        guard let url = URL(string: addr) else { return }
+        URLSession.shared.dataTask(with: url, completionHandler: { [weak self] (data, response, error) in
             guard let data = data, error == nil, let detail = self else { return }
             
             do {
@@ -37,8 +39,10 @@ class DetailSegmentedTable: UITableViewController, AddScrollContentSize {
                 let averageUserRating = resultsDic.filter { $0["averageUserRating"] != nil }.map { $0["averageUserRating"] as! CGFloat }
                 let summaryText = resultsDic.filter { $0["description"] != nil }.map { $0["description"] as! String }
                 let screenshot = resultsDic.filter { $0["screenshotUrls"] != nil }.map { $0["screenshotUrls"] as! NSArray }
+                let icon512 = resultsDic.filter { $0["artworkUrl512"] != nil }.map { $0["artworkUrl512"] as! String }
                 
-                detail.delegate?.setAverageRating(rating: averageUserRating.first)
+                detail.iconDelegate?.setIcon(addr: icon512.first)
+                detail.ratingDelegate?.setAverageRating(rating: averageUserRating.first)
                 DispatchQueue.main.async {
                     detail.summary.text = summaryText.first
                     screenshot.first!.enumerated().forEach { index, value in
@@ -65,7 +69,7 @@ class DetailSegmentedTable: UITableViewController, AddScrollContentSize {
         }
     }
     
-    func addContent(size: CGSize) {
+    internal func addContent(size: CGSize) {
         let width = size.width + screenshot.contentSize.width + 10
         screenshot.contentSize = CGSize(width: width, height: size.height)
         screenshot.frame.size = CGSize(width: screenshot.frame.size.width, height: size.height)

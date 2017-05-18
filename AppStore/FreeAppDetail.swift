@@ -12,7 +12,11 @@ protocol AverageUserRatingDelegate: class {
     func setAverageRating(rating: CGFloat?)
 }
 
-class FreeAppDetail: UIViewController, AverageUserRatingDelegate {
+protocol DetailAppIconDelegate: class {
+    func setIcon(addr: String?)
+}
+
+class FreeAppDetail: UIViewController, AverageUserRatingDelegate, DetailAppIconDelegate {
     
     @IBOutlet weak var reviewSegmented: UIView!
     @IBOutlet weak var detailSegmented: UIView!
@@ -30,7 +34,7 @@ class FreeAppDetail: UIViewController, AverageUserRatingDelegate {
     var appTitleText: String?
     var iconAddr: String? {
         didSet {
-            let url = URL(string: iconAddr!)!
+            guard let url = URL(string: iconAddr ?? "") else { return }
             URLSession.shared.dataTask(with:url, completionHandler: { [weak self] (data, response, error) in
                 guard let detailVC = self else { return }
                 guard let httpUrlResponse = response as? HTTPURLResponse else { return}
@@ -58,11 +62,15 @@ class FreeAppDetail: UIViewController, AverageUserRatingDelegate {
         }
     }
     
-    func setAverageRating(rating: CGFloat?) {
+    internal func setAverageRating(rating: CGFloat?) {
         DispatchQueue.main.async {
             self.userRating.rating = rating!
             self.userRating.setNeedsDisplay()
         }
+    }
+    
+    internal func setIcon(addr: String?) {
+        iconAddr = addr
     }
     
     override func viewDidLoad() {
@@ -73,7 +81,8 @@ class FreeAppDetail: UIViewController, AverageUserRatingDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detail" {
             let detail = segue.destination as! DetailSegmentedTable
-            detail.delegate = self
+            detail.ratingDelegate = self
+            detail.iconDelegate = self
             detail.appID = appID
         } else if segue.identifier == "review" {
             let review = segue.destination as! ReviewSegmented

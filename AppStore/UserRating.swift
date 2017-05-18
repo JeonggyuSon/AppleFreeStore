@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable
 class UserRating: UIView {
 
-    var rating: CGFloat = 3.5
+    var rating: CGFloat = 0
     
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.

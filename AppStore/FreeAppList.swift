@@ -26,9 +26,9 @@ class FreeAppList: UIViewController {
     }
     
     struct CellInfo {
-        var iconAddr53: String?
-        var iconAddr75: String?
-        var iconAddr100: String?
+        var iconAddr53 = ""
+        var iconAddr75 = ""
+        var iconAddr100 = ""
         var appId: String
         var appTitle: String
         
@@ -115,7 +115,8 @@ extension FreeAppList: UITableViewDataSource, UITableViewDelegate {
         DispatchQueue.main.async {
             cell.appTitle.text = index.appTitle
             cell.rankingNum.text = "\(indexPath.row.hashValue + 1)"
-            let url = URL(string: index.iconAddr53!)!
+            
+            guard let url = URL(string: index.iconAddr100) else { return }
             URLSession.shared.dataTask(with:url, completionHandler: { (data, response, error) in
                 guard let httpUrlResponse = response as? HTTPURLResponse else { return}
                 if httpUrlResponse.statusCode == 200 {
@@ -138,7 +139,6 @@ extension FreeAppList: UITableViewDataSource, UITableViewDelegate {
             let detail = segue.destination as! FreeAppDetail
             let info = freeList[index.row]
             detail.appTitleText = info.appTitle
-            detail.iconAddr = info.iconAddr100
             detail.appID = info.appId
         }
     }
