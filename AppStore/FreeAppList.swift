@@ -14,8 +14,13 @@ class FreeAppList: UIViewController {
 
     var freeList = [CellInfo]() {
         didSet {
+            let insertNum = 0..<freeList.count
+            let index = insertNum.map { IndexPath(row: $0, section: 0) }
+            
             DispatchQueue.main.async {
-                self.freeAppListTable.reloadData()
+                self.freeAppListTable.beginUpdates()
+                self.freeAppListTable.insertRows(at: index, with: .automatic)
+                self.freeAppListTable.endUpdates()
             }
         }
     }
@@ -35,6 +40,9 @@ class FreeAppList: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        freeAppListTable.tableFooterView = UIView()
+        
         let addr = "https://itunes.apple.com/kr/rss/topfreeapplications/limit=50/json"
         let url = URL(string: addr)
         URLSession.shared.dataTask(with: url!, completionHandler: { [weak self] (data, response, error) in
